@@ -1,0 +1,20 @@
+{
+    "name": "cmd-keen/mapper",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sven Speckmaier",
+            "email": "sven@speckmaier.de"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "Mapper\\":"src/"
+      }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "pimple/pimple": "^3.2"
+    }
+}
