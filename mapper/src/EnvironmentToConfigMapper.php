@@ -13,11 +13,6 @@ class EnvironmentToConfigMapper {
 
 	protected $config;
 
-	public function setConfig( $config ) {
-		$this->config = $config;
-		return $this;
-	}
-
 	protected $environment;
 
 	public function setEnvironment( $environment ) {
@@ -26,6 +21,7 @@ class EnvironmentToConfigMapper {
 	}
 
 	public function map() {
+		$this->config = [];
 
 		foreach($this->environment as $name => $value)
 			$this->mapVariable( $name, $value );

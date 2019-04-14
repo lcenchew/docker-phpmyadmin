@@ -5,11 +5,11 @@
  * @var array $cfg
  */
 
-use Mapper\EnvironmentMapper\EnvironmentToConfigMapper;
+use Mapper\EnvironmentToConfigMapper;
 
 require_once __DIR__.'/mapper/bootstrap.php';
 
 $mapper = new EnvironmentToConfigMapper;
-$mapper->setConfig( $cfg );
 $mapper->setEnvironment( $_ENV );
-$cfg = $mapper->map();
+$extraConfig = $mapper->map();
+$cfg = array_merge($cfg, $extraConfig);

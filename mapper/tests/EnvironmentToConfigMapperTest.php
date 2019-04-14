@@ -1,9 +1,9 @@
-<?php
+<?php namespace MapperTests;
 
 /**
- * Class EnvironmentToConfigMapperTest
+ * Class EnvironmentToConfigMapperTestCase
  */
-class EnvironmentToConfigMapperTest extends \PHPUnit\Framework\TestCase {
+class EnvironmentToConfigMapperTest extends BaseTestCase {
 
 	/**
 	 * @var \Mapper\EnvironmentToConfigMapper
@@ -20,9 +20,9 @@ class EnvironmentToConfigMapperTest extends \PHPUnit\Framework\TestCase {
 	 * @test
 	 * @param $environment
 	 * @param $expectedConfig
-	 * @dataProvider data
+	 * @dataProvider correctData
 	 */
-	public function mapsEnvironmentVariables( $environment, $expectedConfig  ) {
+	public function correctValuesPass( $environment, $expectedConfig  ) {
 		$config = [];
 
 		$this->environmentToConfigMapper->setConfig($config);
@@ -33,23 +33,7 @@ class EnvironmentToConfigMapperTest extends \PHPUnit\Framework\TestCase {
 
 	}
 
-	/**
-	 * @param $expectedArray
-	 * @param $actualArray
-	 */
-	public function assertArrayEqual($expectedArray, $actualArray) {
-		if( !is_array($expectedArray) ) {
-			$this->assertEquals($expectedArray, $actualArray);
-			return;
-		}
-
-		foreach ($expectedArray as $name => $value)
-			$this->assertArrayHasKey($name, $actualArray);
-			$this->assertArrayEqual($expectedArray[$name], $actualArray[$name]);
-
-	}
-
-	public function data(  ) {
+	public function correctData(  ) {
 		return [
 			[
 				// environment
@@ -64,4 +48,69 @@ class EnvironmentToConfigMapperTest extends \PHPUnit\Framework\TestCase {
 		];
 
 	}
+
+
+	/**
+	 * @test
+	 * @param $environment
+	 * @param $expectedConfig
+	 * @dataProvider incorrectData
+	 */
+	public function incorrectValuesFail( $environment, $expectedConfig  ) {
+		$config = [];
+
+		$this->environmentToConfigMapper->setConfig($config);
+		$this->environmentToConfigMapper->setEnvironment($environment);
+
+		$createdConfig = $this->environmentToConfigMapper->map();
+		$this->assertArrayNotEqual($expectedConfig, $createdConfig);
+
+	}
+
+	public function incorrectData(  ) {
+		return [
+			[
+				// environment
+				[
+					'pma.Servers.0.ssl' => 'true'
+				],
+				// expected config
+				[
+					'Servers' => [ 1 => [ 'ssl' => true ] ]
+				],
+			],
+			[
+				// environment
+				[
+					'pma.Servers.0.ssl' => 'true'
+				],
+				// expected config
+				[
+					'Cookies' => [ [ 'ssl' => true ] ]
+				],
+			],
+			[
+				// environment
+				[
+					'pma.Servers.0.ssl' => 'true'
+				],
+				// expected config
+				[
+					'Servers' => [ [ 'sslk' => true ] ]
+				],
+			],
+			[
+				// environment
+				[
+					'pma.Servers.0.ssl' => 'true'
+				],
+				// expected config
+				[
+					'Servers' => [ [ 'ssl' => false ] ]
+				],
+			],
+		];
+
+	}
+
 }
