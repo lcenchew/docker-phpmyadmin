@@ -23,9 +23,6 @@ class EnvironmentToConfigMapperTest extends BaseTestCase {
 	 * @dataProvider correctData
 	 */
 	public function correctValuesPass( $environment, $expectedConfig  ) {
-		$config = [];
-
-		$this->environmentToConfigMapper->setConfig($config);
 		$this->environmentToConfigMapper->setEnvironment($environment);
 
 		$createdConfig = $this->environmentToConfigMapper->map();
@@ -57,9 +54,6 @@ class EnvironmentToConfigMapperTest extends BaseTestCase {
 	 * @dataProvider incorrectData
 	 */
 	public function incorrectValuesFail( $environment, $expectedConfig  ) {
-		$config = [];
-
-		$this->environmentToConfigMapper->setConfig($config);
 		$this->environmentToConfigMapper->setEnvironment($environment);
 
 		$createdConfig = $this->environmentToConfigMapper->map();
