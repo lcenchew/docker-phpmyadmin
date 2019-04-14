@@ -5,7 +5,7 @@
  * @var array $cfg
  */
 
-use Mapper\EnvironmentToConfigMapper;
+use Mapper\EnvironmentMapper\EnvironmentToConfigMapper;
 
 require_once __DIR__.'/mapper/bootstrap.php';
 
