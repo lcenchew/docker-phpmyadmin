@@ -1,4 +1,4 @@
-FROM phpmyadmin/phpmyadmin:4.7
+FROM phpmyadmin/phpmyadmin
 
 COPY mapper /etc/phpmyadmin/mapper
 COPY config.user.inc.php /etc/phpmyadmin/config.user.inc.php
